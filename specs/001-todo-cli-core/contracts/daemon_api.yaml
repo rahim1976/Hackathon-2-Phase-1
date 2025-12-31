@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Todo Daemon API
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      summary: List all tasks
+      responses:
+        '200':
+          description: List of tasks
+    post:
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: {type: string}
+                description: {type: string}
+  /tasks/{task_id}:
+    patch:
+      summary: Update a task
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema: {type: integer}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: {type: string}
+                description: {type: string}
+                is_completed: {type: boolean}
+    delete:
+      summary: Delete a task
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema: {type: integer}
+  /daemon/status:
+    get:
+      summary: Check daemon status
+    post:
+      summary: Shutdown daemon
